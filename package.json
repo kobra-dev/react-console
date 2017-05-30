@@ -16,6 +16,7 @@
   "typings": "main.d.ts",
   "scripts": {
     "prepublish": "typings install && webpack",
+    "postinstall": "typings install && webpack",
     "build": "webpack",
     "clean": "rm -rf dist lib dev/dist test/dist coverage",
     "clean:deep": "rm -rf dist lib dev/dist test/dist coverage node_modules typings",
