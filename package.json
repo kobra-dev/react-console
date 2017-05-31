@@ -15,7 +15,7 @@
   "style": "main.css",
   "typings": "main.d.ts",
   "scripts": {
-    "prepublish": "npm -i --ignore-scripts && typings install && webpack",
+    "prepublish": "typings install && webpack",
     "build": "webpack",
     "clean": "rm -rf dist lib dev/dist test/dist coverage",
     "clean:deep": "rm -rf dist lib dev/dist test/dist coverage node_modules typings",

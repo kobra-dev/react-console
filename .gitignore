@@ -35,10 +35,6 @@ node_modules
 # Typescript type definitions
 typings
 
-# Directory for built project
-dist
-lib
-
 # mocha-webpack cache
 .tmp
 
