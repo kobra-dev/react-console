@@ -73,28 +73,68 @@ class ConsolePrompt extends React.Component<ConsolePromptProps,{}> {
 	}
 }
 
+interface ConsoleTableHeaderProps {
+	headers?: string[];
+}
+let ConsoleTableHeader: React.SFC<ConsoleTableHeaderProps> = function(props: ConsoleTableHeaderProps){	
+	if(props.headers){
+		return <thead>
+					<tr>
+						{props.headers.map((header: string) => {
+							return <th scope="col" key={ header }>{ header }</th>;
+						})}
+					</tr>
+				</thead>
+	}
+	return null;
+}
+
 interface ConsoleMessageProps {
 	type?: string;
+	isTable?: boolean;
 	value: any[];
 }
 let ConsoleMessage: React.SFC<ConsoleMessageProps> = function(props: ConsoleMessageProps) {
-	return <div className={"react-console-message" + (props.type?" react-console-message-"+props.type:"")}>
-		{props.value.map((val: any)=>{
-			if(typeof val == 'string') {
-				return val;
-			} else {
-				return JSON.stringify(val);
-			}
-		}).join("\n")}
-	</div>;
+	if(props.isTable){
+		const data = props.value[0];
+		return <div className="react-console-message react-console-table">
+			<table>
+				<ConsoleTableHeader headers={data.headers} />
+				<tbody>
+					{data.rows && data.rows.map((row: string[], index: number) => {
+						return <tr key={index}>{row.map((cell: string, cellIndex: number) => { 
+								return <td key={cellIndex}>{cell}</td>; })
+							}</tr>;
+					})}
+				</tbody>
+			</table>
+		</div>;
+	}else{
+		return <div className={"react-console-message" + (props.type?" react-console-message-"+props.type:"")}>
+			{props.value.map((val: any)=>{
+				if(typeof val == 'string') {
+					return val;
+				} else {
+					return JSON.stringify(val);
+				}
+			}).join("\n")}
+		</div>;
+	}
 }
 ConsoleMessage.defaultProps = {
 	type: null,
 	value: [],
+	isTable: false
+}
+
+export interface ConsoleTableObject {
+	rows: Array<string[]>;
+	headers?: Array<string>;
 }
 
 export interface LogMessage {
 	type?: string;
+	isTable?: boolean;
 	value: any[];
 }
 export interface LogEntry {
@@ -185,6 +225,13 @@ export default class extends React.Component<ConsoleProps,ConsoleState> {
 	logX = (type: string, ...messages: any[]) => {
 		let log = this.state.log;
 		log[this.state.log.length-1].message.push({type: type, value: messages});
+		this.setState({
+			log: log,
+		}, this.scrollIfBottom() );
+	}
+	logTable = (tableData: ConsoleTableObject) => {
+		let log = this.state.log;
+		log[this.state.log.length-1].message.push({isTable: true, value: [tableData]});
 		this.setState({
 			log: log,
 		}, this.scrollIfBottom() );
@@ -968,7 +1015,7 @@ export default class extends React.Component<ConsoleProps,ConsoleState> {
 				return [
 					<ConsolePrompt label={val.label} value={val.command} />,
 					...val.message.map( (val: LogMessage, idx: number) => {
-						return <ConsoleMessage key={idx} type={val.type} value={val.value} />;
+						return <ConsoleMessage key={idx} type={val.type} value={val.value} isTable={val.isTable} />;
 					})
 				];
 			})}

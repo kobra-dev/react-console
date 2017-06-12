@@ -55,6 +55,7 @@ compiler.watch({},function(err,stats) {
 });
 
 // Karma test server
+/*
 let karmaServer = new karma.Server({
 	configFile: `${__dirname}/karma.conf.js`,
 	singleRun: false,
@@ -66,3 +67,4 @@ karmaServer.on('run_complete', function() {
 	logEnd();
 });
 karmaServer.start();
+*/
