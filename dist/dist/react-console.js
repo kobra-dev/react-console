@@ -119,19 +119,38 @@ var Console =
 	    };
 	    return ConsolePrompt;
 	}(React.Component));
+	var ConsoleTableHeader = function (props) {
+	    if (props.headers) {
+	        return React.createElement("thead", null, React.createElement("tr", null, props.headers.map(function (header) {
+	            return React.createElement("th", {scope: "col", key: header}, header);
+	        })));
+	    }
+	    return null;
+	};
 	var ConsoleMessage = function (props) {
-	    return React.createElement("div", {className: "react-console-message" + (props.type ? " react-console-message-" + props.type : "")}, props.value.map(function (val) {
-	        if (typeof val == 'string') {
-	            return val;
-	        }
-	        else {
-	            return JSON.stringify(val);
-	        }
-	    }).join("\n"));
+	    if (props.isTable) {
+	        var data = props.value[0];
+	        return React.createElement("div", {className: "react-console-message react-console-table"}, React.createElement("table", null, React.createElement(ConsoleTableHeader, {headers: data.headers}), React.createElement("tbody", null, data.rows && data.rows.map(function (row, index) {
+	            return React.createElement("tr", {key: index}, row.map(function (cell, cellIndex) {
+	                return React.createElement("td", {key: cellIndex}, cell);
+	            }));
+	        }))));
+	    }
+	    else {
+	        return React.createElement("div", {className: "react-console-message" + (props.type ? " react-console-message-" + props.type : "")}, props.value.map(function (val) {
+	            if (typeof val == 'string') {
+	                return val;
+	            }
+	            else {
+	                return JSON.stringify(val);
+	            }
+	        }).join("\n"));
+	    }
 	};
 	ConsoleMessage.defaultProps = {
 	    type: null,
 	    value: [],
+	    isTable: false
 	};
 	;
 	;
@@ -160,6 +179,13 @@ var Console =
 	            }
 	            var log = _this.state.log;
 	            log[_this.state.log.length - 1].message.push({ type: type, value: messages });
+	            _this.setState({
+	                log: log,
+	            }, _this.scrollIfBottom());
+	        };
+	        this.logTable = function (tableData) {
+	            var log = _this.state.log;
+	            log[_this.state.log.length - 1].message.push({ isTable: true, value: [tableData] });
 	            _this.setState({
 	                log: log,
 	            }, _this.scrollIfBottom());
@@ -919,7 +945,7 @@ var Console =
 	            return [
 	                React.createElement(ConsolePrompt, {label: val.label, value: val.command})
 	            ].concat(val.message.map(function (val, idx) {
-	                return React.createElement(ConsoleMessage, {key: idx, type: val.type, value: val.value});
+	                return React.createElement(ConsoleMessage, {key: idx, type: val.type, value: val.value, isTable: val.isTable});
 	            }));
 	        }), this.state.acceptInput ?
 	            React.createElement(ConsolePrompt, {label: this.state.currLabel, value: this.state.promptText, point: this.state.point, argument: this.state.argument})
