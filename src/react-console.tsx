@@ -175,8 +175,22 @@ export default class extends React.Component<ConsoleProps,ConsoleState> {
 		focus?: HTMLElement;
 	} = {};
 	// Command API
+	updateLastLog = (...messages: any[]) => {
+		let log = this.state.log;
+		if(!log.length){
+			log.push({label: '', command: '', message: [] });
+		}
+		let indexToReplace = log[this.state.log.length-1].message.length > 0 ? log[this.state.log.length-1].message.length - 1 : 0;
+		log[this.state.log.length-1].message[indexToReplace] = {value: messages};
+		this.setState({
+			log: log,
+		}, this.scrollIfBottom() );
+	}
 	log = (...messages: any[]) => {
 		let log = this.state.log;
+		if(!log.length){
+			log.push({label: '', command: '', message: [] });
+		}
 		log[this.state.log.length-1].message.push({value: messages});
 		this.setState({
 			log: log,
@@ -184,6 +198,9 @@ export default class extends React.Component<ConsoleProps,ConsoleState> {
 	}
 	logX = (type: string, ...messages: any[]) => {
 		let log = this.state.log;
+		if(!log.length){
+			log.push({label: '', command: '', message: [] });
+		}
 		log[this.state.log.length-1].message.push({type: type, value: messages});
 		this.setState({
 			log: log,
