@@ -97,7 +97,7 @@ interface ConsoleMessageProps {
 let ConsoleMessage: React.SFC<ConsoleMessageProps> = function(props: ConsoleMessageProps) {
 	if(props.isTable){
 		const data = props.value[0];
-		return <div className="react-console-message react-console-table">
+		return <div className={"react-console-message react-console-table" + (props.type?" react-console-message-"+props.type:"")}>
 			<table>
 				<ConsoleTableHeader headers={data.headers} />
 				<tbody>
@@ -246,9 +246,13 @@ export default class extends React.Component<ConsoleProps,ConsoleState> {
 			log: log,
 		}, this.scrollIfBottom() );
 	}
-	logTable = (tableData: ConsoleTableObject) => {
+	logTable = (tableData: ConsoleTableObject, type?: string) => {
 		let log = this.state.log;
-		log[this.state.log.length-1].message.push({isTable: true, value: [tableData]});
+		if(type){
+			log[this.state.log.length-1].message.push({isTable: true, type: type, value: [tableData]});
+		}else{
+			log[this.state.log.length-1].message.push({isTable: true, value: [tableData]});
+		}
 		this.setState({
 			log: log,
 		}, this.scrollIfBottom() );

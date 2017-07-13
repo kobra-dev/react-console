@@ -130,7 +130,7 @@ var Console =
 	var ConsoleMessage = function (props) {
 	    if (props.isTable) {
 	        var data = props.value[0];
-	        return React.createElement("div", {className: "react-console-message react-console-table"}, React.createElement("table", null, React.createElement(ConsoleTableHeader, {headers: data.headers}), React.createElement("tbody", null, data.rows && data.rows.map(function (row, index) {
+	        return React.createElement("div", {className: "react-console-message react-console-table" + (props.type ? " react-console-message-" + props.type : "")}, React.createElement("table", null, React.createElement(ConsoleTableHeader, {headers: data.headers}), React.createElement("tbody", null, data.rows && data.rows.map(function (row, index) {
 	            return React.createElement("tr", {key: index}, row.map(function (cell, cellIndex) {
 	                return React.createElement("td", {key: cellIndex}, cell);
 	            }));
@@ -204,9 +204,14 @@ var Console =
 	                log: log,
 	            }, _this.scrollIfBottom());
 	        };
-	        this.logTable = function (tableData) {
+	        this.logTable = function (tableData, type) {
 	            var log = _this.state.log;
-	            log[_this.state.log.length - 1].message.push({ isTable: true, value: [tableData] });
+	            if (type) {
+	                log[_this.state.log.length - 1].message.push({ isTable: true, type: type, value: [tableData] });
+	            }
+	            else {
+	                log[_this.state.log.length - 1].message.push({ isTable: true, value: [tableData] });
+	            }
 	            _this.setState({
 	                log: log,
 	            }, _this.scrollIfBottom());
