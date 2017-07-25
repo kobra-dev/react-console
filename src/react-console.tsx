@@ -487,6 +487,10 @@ export default class extends React.Component<ConsoleProps,ConsoleState> {
 				keyCodes[e.keyCode]();
 				e.preventDefault();
 			}
+		} else if(e.ctrlKey && e.keyCode === 67) {
+			// if input is blocked, ctrl+c should still call cancel
+			ctrlCodes[e.keyCode]();
+			e.preventDefault();
 		}
 	}
 	change = () => {
