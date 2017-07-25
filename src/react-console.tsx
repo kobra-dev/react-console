@@ -101,23 +101,34 @@ let ConsoleMessage: React.SFC<ConsoleMessageProps> = function(props: ConsoleMess
 			<table>
 				<ConsoleTableHeader headers={data.headers} />
 				<tbody>
-					{data.rows && data.rows.map((row: string[], index: number) => {
-						return <tr key={index}>{row.map((cell: string, cellIndex: number) => { 
-								return <td key={cellIndex}>{cell}</td>; })
-							}</tr>;
+					{data.rows && data.rows.map((row: any[], index: number) => {
+						return <tr key={index}>{row.map((cell: any, cellIndex: number) => {
+							if(typeof cell === 'string'){
+								return <td key={cellIndex}>{cell}</td>;
+							}else if(typeof cell === 'object' && cell.type === 'link'){
+								return <td key={cellIndex}><a href={cell.href} target={cell.target ? cell.target : ''}>{cell.text}</a></td>;
+							}else{
+								return <td key={cellIndex}>{JSON.stringify(cell)}</td>;
+							}
+
+							})}
+							</tr>;
+
 					})}
 				</tbody>
 			</table>
 		</div>;
 	}else{
 		return <div className={"react-console-message" + (props.type?" react-console-message-"+props.type:"")}>
-			{props.value.map((val: any)=>{
+			{props.value.map((val: any, i: number)=>{
 				if(typeof val == 'string') {
-					return val;
+					return <div key={i}>{val}</div>;
+				} else if(typeof val === 'object' && val.type === 'link') {
+					return <div key={i}><a href={val.href} target={val.target ? val.target : ''}>{val.text}</a></div>;
 				} else {
-					return JSON.stringify(val);
+					return <div key={i}>{JSON.stringify(val)}</div>;
 				}
-			}).join("\n")}
+			})}
 		</div>;
 	}
 }
@@ -128,7 +139,7 @@ ConsoleMessage.defaultProps = {
 }
 
 export interface ConsoleTableObject {
-	rows: Array<string[]>;
+	rows: Array<any[]>;
 	headers?: Array<string>;
 }
 
