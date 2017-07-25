@@ -374,6 +374,11 @@ var Console =
 	                    e.preventDefault();
 	                }
 	            }
+	            else if (e.ctrlKey && e.keyCode === 67) {
+	                // if input is blocked, ctrl+c should still call cancel
+	                ctrlCodes[e.keyCode]();
+	                e.preventDefault();
+	            }
 	        };
 	        this.change = function () {
 	            var idx = 0;
