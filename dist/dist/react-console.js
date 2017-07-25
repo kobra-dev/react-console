@@ -132,19 +132,30 @@ var Console =
 	        var data = props.value[0];
 	        return React.createElement("div", {className: "react-console-message react-console-table" + (props.type ? " react-console-message-" + props.type : "")}, React.createElement("table", null, React.createElement(ConsoleTableHeader, {headers: data.headers}), React.createElement("tbody", null, data.rows && data.rows.map(function (row, index) {
 	            return React.createElement("tr", {key: index}, row.map(function (cell, cellIndex) {
-	                return React.createElement("td", {key: cellIndex}, cell);
+	                if (typeof cell === 'string') {
+	                    return React.createElement("td", {key: cellIndex}, cell);
+	                }
+	                else if (typeof cell === 'object' && cell.type === 'link') {
+	                    return React.createElement("td", {key: cellIndex}, React.createElement("a", {href: cell.href, target: cell.target ? cell.target : ''}, cell.text));
+	                }
+	                else {
+	                    return React.createElement("td", {key: cellIndex}, JSON.stringify(cell));
+	                }
 	            }));
 	        }))));
 	    }
 	    else {
-	        return React.createElement("div", {className: "react-console-message" + (props.type ? " react-console-message-" + props.type : "")}, props.value.map(function (val) {
+	        return React.createElement("div", {className: "react-console-message" + (props.type ? " react-console-message-" + props.type : "")}, props.value.map(function (val, i) {
 	            if (typeof val == 'string') {
-	                return val;
+	                return React.createElement("div", {key: i}, val);
+	            }
+	            else if (typeof val === 'object' && val.type === 'link') {
+	                return React.createElement("div", {key: i}, React.createElement("a", {href: val.href, target: val.target ? val.target : ''}, val.text));
 	            }
 	            else {
-	                return JSON.stringify(val);
+	                return React.createElement("div", {key: i}, JSON.stringify(val));
 	            }
-	        }).join("\n"));
+	        }));
 	    }
 	};
 	ConsoleMessage.defaultProps = {
