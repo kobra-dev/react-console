@@ -71,6 +71,7 @@ Properties you can pass to the console element
 | logX		| (type: string, ...messages: any)=>void	| Log messages of a particular type to the console. The messages will be given the class `react-console-message-{type}`.
 | logTable	| (tableObject: Object[, type: string])=>void	| Log tabular data to the console. `tableObject` has the format `{ headers: ['header 1', 'header 2'], rows: [['row 1, col 1', 'row 1, col 2'], ['row 2, col 1', 'row 2, col 2']]}`. `headers` is optional. Rows can also contain objects which will be output as JSON strings or according to the `type: link` rules listed above. The optional `type` argument will be handled the same as in `logX`
 | return	| ()=>void					| Signal the current command has finished and a new prompt should be displayed.
+| setBusy	| ()=>void					| Block user input as though a command is being handled. 
 | clearScreen	| ()=>void					| Clear the visible log in the console. Does not clear command history.
 
 

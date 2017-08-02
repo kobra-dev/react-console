@@ -172,6 +172,9 @@ var Console =
 	        _super.call(this, props);
 	        this.child = {};
 	        // Command API
+	        this.setBusy = function () {
+	            _this.setState({ acceptInput: false });
+	        };
 	        this.updateLastLog = function () {
 	            var messages = [];
 	            for (var _i = 0; _i < arguments.length; _i++) {
