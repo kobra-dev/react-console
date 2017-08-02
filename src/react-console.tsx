@@ -226,6 +226,9 @@ export default class extends React.Component<ConsoleProps,ConsoleState> {
 		focus?: HTMLElement;
 	} = {};
 	// Command API
+	setBusy = () => {
+		this.setState({acceptInput: false});
+	}
 	updateLastLog = (...messages: any[]) => {
 		let log = this.state.log;
 		if(!log.length){
