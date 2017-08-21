@@ -175,15 +175,18 @@ var Console =
 	        this.setBusy = function () {
 	            _this.setState({ acceptInput: false });
 	        };
+	        this.getSafeLog = function () {
+	            if (!_this.state.log.length) {
+	                _this.state.log.push({ label: '', command: '', message: [] });
+	            }
+	            return _this.state.log;
+	        };
 	        this.updateLastLog = function () {
 	            var messages = [];
 	            for (var _i = 0; _i < arguments.length; _i++) {
 	                messages[_i - 0] = arguments[_i];
 	            }
-	            var log = _this.state.log;
-	            if (!log.length) {
-	                log.push({ label: '', command: '', message: [] });
-	            }
+	            var log = _this.getSafeLog();
 	            var indexToReplace = log[_this.state.log.length - 1].message.length > 0 ? log[_this.state.log.length - 1].message.length - 1 : 0;
 	            log[_this.state.log.length - 1].message[indexToReplace] = { value: messages };
 	            _this.setState({
@@ -195,10 +198,7 @@ var Console =
 	            for (var _i = 0; _i < arguments.length; _i++) {
 	                messages[_i - 0] = arguments[_i];
 	            }
-	            var log = _this.state.log;
-	            if (!log.length) {
-	                log.push({ label: '', command: '', message: [] });
-	            }
+	            var log = _this.getSafeLog();
 	            log[_this.state.log.length - 1].message.push({ value: messages });
 	            _this.setState({
 	                log: log,
@@ -209,7 +209,7 @@ var Console =
 	            for (var _i = 1; _i < arguments.length; _i++) {
 	                messages[_i - 1] = arguments[_i];
 	            }
-	            var log = _this.state.log;
+	            var log = _this.getSafeLog();
 	            if (!log.length) {
 	                log.push({ label: '', command: '', message: [] });
 	            }
@@ -219,7 +219,7 @@ var Console =
 	            }, _this.scrollIfBottom());
 	        };
 	        this.logTable = function (tableData, type) {
-	            var log = _this.state.log;
+	            var log = _this.getSafeLog();
 	            if (type) {
 	                log[_this.state.log.length - 1].message.push({ isTable: true, type: type, value: [tableData] });
 	            }

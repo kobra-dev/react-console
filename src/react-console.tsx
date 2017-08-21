@@ -229,11 +229,14 @@ export default class extends React.Component<ConsoleProps,ConsoleState> {
 	setBusy = () => {
 		this.setState({acceptInput: false});
 	}
-	updateLastLog = (...messages: any[]) => {
-		let log = this.state.log;
-		if(!log.length){
-			log.push({label: '', command: '', message: [] });
+	getSafeLog = () => {
+		if(!this.state.log.length){
+			this.state.log.push({label: '', command: '', message: [] });
 		}
+		return this.state.log;
+	}
+	updateLastLog = (...messages: any[]) => {
+		let log = this.getSafeLog();
 		let indexToReplace = log[this.state.log.length-1].message.length > 0 ? log[this.state.log.length-1].message.length - 1 : 0;
 		log[this.state.log.length-1].message[indexToReplace] = {value: messages};
 		this.setState({
@@ -241,17 +244,14 @@ export default class extends React.Component<ConsoleProps,ConsoleState> {
 		}, this.scrollIfBottom() );
 	}
 	log = (...messages: any[]) => {
-		let log = this.state.log;
-		if(!log.length){
-			log.push({label: '', command: '', message: [] });
-		}
+		let log = this.getSafeLog();
 		log[this.state.log.length-1].message.push({value: messages});
 		this.setState({
 			log: log,
 		}, this.scrollIfBottom() );
 	}
 	logX = (type: string, ...messages: any[]) => {
-		let log = this.state.log;
+		let log = this.getSafeLog();
 		if(!log.length){
 			log.push({label: '', command: '', message: [] });
 		}
@@ -261,7 +261,7 @@ export default class extends React.Component<ConsoleProps,ConsoleState> {
 		}, this.scrollIfBottom() );
 	}
 	logTable = (tableData: ConsoleTableObject, type?: string) => {
-		let log = this.state.log;
+		let log = this.getSafeLog();
 		if(type){
 			log[this.state.log.length-1].message.push({isTable: true, type: type, value: [tableData]});
 		}else{
