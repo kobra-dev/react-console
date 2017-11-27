@@ -484,8 +484,9 @@ export default class extends React.Component<ConsoleProps,ConsoleState> {
 				if (e.keyCode in ctrlCodes) {
 					ctrlCodes[e.keyCode]();
 					e.preventDefault();
+				}else if(e.keyCode !== 86){ // allow ctrl+v for paste on windows
+					e.preventDefault();
 				}
-				e.preventDefault();
 			} else if (e.keyCode in keyCodes) {
 				keyCodes[e.keyCode]();
 				e.preventDefault();
