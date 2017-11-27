@@ -52,7 +52,7 @@ var Console =
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./react-console.scss\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	__webpack_require__(2);
 	var ConsolePrompt = (function (_super) {
 	    __extends(ConsolePrompt, _super);
 	    function ConsolePrompt() {
@@ -1020,6 +1020,12 @@ var Console =
 /***/ (function(module, exports) {
 
 	module.exports = React;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
