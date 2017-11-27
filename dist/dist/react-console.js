@@ -381,7 +381,9 @@ var Console =
 	                        ctrlCodes[e.keyCode]();
 	                        e.preventDefault();
 	                    }
-	                    e.preventDefault();
+	                    else if (e.keyCode !== 86) {
+	                        e.preventDefault();
+	                    }
 	                }
 	                else if (e.keyCode in keyCodes) {
 	                    keyCodes[e.keyCode]();
