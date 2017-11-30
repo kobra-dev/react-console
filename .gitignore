@@ -40,3 +40,6 @@ typings
 
 # github token
 .token.json
+
+# ignore intellij project directory
+.idea

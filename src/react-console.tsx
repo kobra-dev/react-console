@@ -24,9 +24,9 @@ class ConsolePrompt extends React.Component<ConsolePromptProps,{}> {
 	componentDidMount() {
 		this.idle();
 	}
-	componentDidUpdate() {
-		this.idle();
-	}
+	// componentDidUpdate() {
+	// 	this.idle();
+	// }
 	// DOM Management
 	updateSemaphore: number = 0;
 	idle() {

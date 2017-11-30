@@ -2,7 +2,10 @@
 
 import * as React from 'react';
 import { assert, expect } from 'chai';
-import * as enzyme from 'enzyme';
+// for some reason the latest version of enzyme can't do es6 imports properly and since we don't need fancy
+//   es6 module imports/tree shaking for test files we're just going to use es5 syntax which actually works.
+const enzyme = require('enzyme');
+const adapter = require('enzyme-adapter-react-16');
 
 import {
 	ConsolePrompt,
@@ -10,8 +13,10 @@ import {
 	default as Console
 } from 'exports?ConsolePrompt&ConsoleMessage!../src/react-console.tsx';
 
+// configure the react 16 adapter for the latest version of enzyme
+enzyme.configure({ adapter: new adapter() });
 
-describe('<ConsolePrompt />', function() {
+ describe('<ConsolePrompt />', function() {
 	describe('[Property] point: ', function () {
 		it('Has no cursor when point is not passed', function() {
 			var wrapper = enzyme.shallow(<ConsolePrompt />);
