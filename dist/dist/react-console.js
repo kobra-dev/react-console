@@ -58,14 +58,14 @@ var Console =
 	    function ConsolePrompt() {
 	        _super.apply(this, arguments);
 	        this.child = {};
-	        // componentDidUpdate() {
-	        // 	this.idle();
-	        // }
 	        // DOM Management
 	        this.updateSemaphore = 0;
 	    }
 	    // Component Lifecycle
 	    ConsolePrompt.prototype.componentDidMount = function () {
+	        this.idle();
+	    };
+	    ConsolePrompt.prototype.componentDidUpdate = function () {
 	        this.idle();
 	    };
 	    ConsolePrompt.prototype.idle = function () {
