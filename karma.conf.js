@@ -17,7 +17,8 @@ module.exports = function(config) {
 		// list of files / patterns to load in the browser
 		files: [
 			'./node_modules/phantomjs-polyfill-object-assign/object-assign-polyfill.js', //HOPE one day ditch PhantomJS polyfill
-			'test/*.tsx'
+            './node_modules/babel-polyfill/dist/polyfill.js',
+			'test/*.tsx',
 		],
 
 
