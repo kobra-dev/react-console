@@ -55,7 +55,7 @@ export default class  extends React.Component<ConsoleProps, ConsoleState> {
     logX: (type: string, ...messages: any[]) => void;
     logTable: (tableObject: object[]) => void;
     return: () => void;
-    setBusy: () => void;
+    setBusy: (busy : boolean) => void;
     clearScreen: () => void;
     componentDidMount(): void;
     focus: () => void;
