@@ -51,8 +51,12 @@ export default class  extends React.Component<ConsoleProps, ConsoleState> {
         focus?: HTMLElement;
     };
     log: (...messages: any[]) => void;
+    updateLastLog: (...messages: any[]) => void;
     logX: (type: string, ...messages: any[]) => void;
+    logTable: (tableObject: object[]) => void;
     return: () => void;
+    setBusy: () => void;
+    clearScreen: () => void;
     componentDidMount(): void;
     focus: () => void;
     blur: () => void;
